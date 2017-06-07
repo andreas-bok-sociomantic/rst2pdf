@@ -25,7 +25,11 @@ from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
 
-import os, shutil, sys, tempfile, urllib.request, urllib.error, urllib.parse
+import setuptools
+import os, shutil, sys, tempfile
+import urllib2
+from importlib import import_module
+
 from optparse import OptionParser
 
 tmpeggs = tempfile.mkdtemp()
@@ -51,25 +55,29 @@ USE_DISTRIBUTE = options.distribute
 args = args + ['bootstrap']
 
 to_reload = False
-try:
-    import pkg_resources
-    if not hasattr(pkg_resources, '_distribute'):
-        to_reload = True
-        raise ImportError
-except ImportError:
-    ez = {}
-    if USE_DISTRIBUTE:
-        exec(urllib.request.urlopen('https://svn.apache.org/repos/asf/oodt/tools/oodtsite.publisher/trunk/distribute_setup.py').read(), ez)
-        ez['use_setuptools'](to_dir=tmpeggs, download_delay=0, no_fake=True)
-    else:
-        exec(urllib.request.urlopen('https://bootstrap.pypa.io/ez_setup.py'
-                             ).read(), ez)
-        ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
 
-    if to_reload:
-        reload(pkg_resources)
-    else:
-        import pkg_resources
+print(tmpeggs)
+# try:
+#     import pkg_resources
+#     if not hasattr(pkg_resources, '_distribute'):
+#         to_reload = True
+#         raise ImportError
+# except ImportError:
+#     ez = {}
+#     if USE_DISTRIBUTE:
+
+#         req = urllib2.Request('https://svn.apache.org/repos/asf/oodt/tools/oodtsite.publisher/trunk/distribute_setup.py')
+#         exec(urllib2.urlopen(req).read(), ez)
+#         ez['use_setuptools'](to_dir=tmpeggs, download_delay=0, no_fake=True)
+#     else:
+
+#         req = urllib2.Request('https://bootstrap.pypa.io/ez_setup.py')
+#         exec(urllib2.urlopen(req).read(), ez)
+#         ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
+#     if to_reload:
+#         reload(pkg_resources)
+#     else:
+#         import pkg_resources
 
 if sys.platform == 'win32':
     def quote(c):

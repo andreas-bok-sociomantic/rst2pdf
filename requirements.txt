@@ -12,4 +12,5 @@ coverage
 aafigure
 svg2rlg
 docutils
+setuptools
 git+https://github.com/NEOatNHNG/wordaxe.git@futurize#egg=wordaxe
